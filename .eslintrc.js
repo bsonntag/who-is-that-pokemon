@@ -25,8 +25,10 @@ module.exports = {
     },
   ],
   rules: {
+    'jsx-a11y/anchor-has-content': 'off', // Link props are checked by TypeScript
     'jsx-a11y/anchor-is-valid': 'off', // Link props are checked by TypeScript
     'react/jsx-uses-react': 'off',
+    'react/no-unescaped-entities': 'off',
     'react/react-in-jsx-scope': 'off',
   },
 };

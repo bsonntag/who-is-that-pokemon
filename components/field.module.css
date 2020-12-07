@@ -1,0 +1,52 @@
+.wrapper {
+  position: relative;
+  border-radius: 24px;
+  box-shadow: 0 1px 15px #0004;
+  transition: border-color 200ms ease;
+}
+
+.wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 27px;
+  background-color: transparent;
+  transition: background-color 250ms ease;
+}
+
+.wrapper:focus-within::before {
+  background-color: black;
+}
+
+.content {
+  position: relative;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  min-height: 48px;
+  background-color: white;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.content > span {
+  display: grid;
+  place-content: center;
+  padding: 0 1.5rem 0 1rem;
+  --gradient-distance: 100%;
+  background-image: linear-gradient(
+    var(--gradient-angle),
+    var(--red) 0,
+    var(--red) var(--gradient-distance),
+    transparent var(--gradient-distance)
+  );
+  color: black;
+  font-weight: bold;
+}
+
+.input {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: 0;
+  outline: none;
+  width: 100%;
+}

@@ -1,0 +1,105 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: [display-start form-start] 1fr [display-end form-end];
+  min-height: 100vh;
+  background: radial-gradient(at 90% 30%, #d9ffff, transparent 80%),
+    radial-gradient(at 10% 50%, #ffdef1, transparent 70%);
+}
+
+@media (min-width: 1100px) {
+  .wrapper {
+    grid-template-columns: [display-start] 55% [form-start] 20% [display-end] 25% [form-end];
+  }
+}
+
+.display {
+  grid-area: display;
+  grid-row: 1;
+  filter: drop-shadow(2px 0 27px #0004);
+}
+
+.displayContent {
+  display: grid;
+  grid-template-rows: 1fr max-content 1fr;
+  height: 100%;
+  padding: 1rem;
+}
+
+@media (min-width: 1100px) {
+  .displayContent {
+    grid-gap: 1rem;
+    padding-right: 30%;
+    background-color: var(--red);
+    background-image: linear-gradient(
+      to bottom left,
+      var(--red),
+      var(--red-dark)
+    );
+    --incline-difference: 0px;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      calc(100% - var(--incline-difference)) 100%,
+      0 100%
+    );
+  }
+}
+
+.title {
+  margin: 0;
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+@media (min-width: 1100px) {
+  .title {
+    text-align: initial;
+  }
+}
+
+.imageWrapper {
+  justify-self: center;
+}
+
+.formWrapper {
+  grid-area: form;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: minmax(auto, 400px);
+  align-content: end;
+  justify-content: center;
+  padding: 1rem;
+}
+
+@media (min-width: 1100px) {
+  .formWrapper {
+    padding: 3rem;
+  }
+}
+
+.form {
+  display: grid;
+  grid-gap: 1rem;
+}
+
+.action {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: calc(0.5rem + 1px) 0.5rem 0.5rem;
+  background-color: white;
+  border-radius: 23px;
+  box-shadow: 0 1px 15px #ccc;
+  color: black;
+  font-size: 1.5rem;
+  line-height: 1;
+  text-align: center;
+  transition: 250ms ease;
+  transition-property: background-color, color;
+}
+
+.action:focus,
+.action:hover {
+  background-color: black;
+  color: white;
+}

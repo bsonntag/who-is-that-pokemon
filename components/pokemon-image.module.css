@@ -1,0 +1,22 @@
+.wrapper {
+  filter: drop-shadow(0 0 27px #000a);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.image {
+  filter: brightness(0);
+  transition: filter 1s ease;
+  animation: fade-in 500ms ease;
+}
+
+.revealed {
+  filter: brightness(1);
+}
