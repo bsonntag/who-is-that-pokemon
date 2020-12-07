@@ -2,8 +2,8 @@
   display: grid;
   grid-template-columns: [display-start form-start] 1fr [display-end form-end];
   min-height: 100vh;
-  background: radial-gradient(at 90% 30%, #d9ffff, transparent 80%),
-    radial-gradient(at 10% 50%, #ffdef1, transparent 70%);
+  background: radial-gradient(at 90% 30%, #d9ffff, white 80%),
+    radial-gradient(at 10% 50%, #ffdef1, white 70%);
 }
 
 @media (min-width: 1100px) {
