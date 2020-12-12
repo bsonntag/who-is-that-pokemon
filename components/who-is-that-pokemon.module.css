@@ -22,7 +22,7 @@
   display: grid;
   grid-template-rows: 1fr max-content 1fr;
   height: 100%;
-  padding: 1rem;
+  padding: 2.5rem 2.5rem 1rem;
 }
 
 @media (min-width: 1100px) {
@@ -61,11 +61,29 @@
   justify-self: center;
 }
 
+@keyframes exit {
+  from {
+    opacity: 0;
+    transform: translateX(-20%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (min-width: 1100px) {
+  .imageExit {
+    animation: exit 5s ease-in both;
+  }
+}
+
 .formWrapper {
   grid-area: form;
   grid-row: 1;
   display: grid;
   grid-template-columns: minmax(auto, 400px);
+  grid-template-rows: 1fr repeat(2, max-content);
   align-content: end;
   justify-content: center;
   padding: 1rem;
@@ -75,6 +93,12 @@
   .formWrapper {
     padding: 3rem;
   }
+}
+
+.score {
+  justify-self: end;
+  font-size: 1.5rem;
+  margin: 0;
 }
 
 .form {

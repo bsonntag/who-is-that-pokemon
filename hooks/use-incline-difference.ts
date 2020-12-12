@@ -13,7 +13,6 @@ export function useInclineDifference<E extends HTMLElement>(): RefObject<E> {
     if (!element) return;
 
     const height = element.getBoundingClientRect().height;
-    console.log('button height', height);
     element.style.setProperty(
       '--incline-difference',
       `calc(${height}px * var(--tan-angle))`

@@ -8,14 +8,19 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.165",
     "@types/node": "^14.14.10",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "base-64": "^1.0.0",
     "clsx": "^1.1.1",
     "leven": "^3.1.0",
+    "lodash": "^4.17.20",
     "next": "latest",
+    "parse-ms": "^2.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-use-countdown": "^0.1.1",
     "typescript": "^4.1.2"
   },
   "devDependencies": {
