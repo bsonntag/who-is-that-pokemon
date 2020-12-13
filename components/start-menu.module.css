@@ -1,29 +1,6 @@
 .wrapper {
   display: grid;
   grid-template-rows: 1fr max-content 1fr;
-  grid-template-columns: minmax(auto, 400px);
-  justify-content: center;
-  min-height: 100vh;
-  --red: #d14246;
-  --red-dark: #b43739;
-  --border-width: 140px;
-  --first-stop: 10%;
-  --second-stop: calc(var(--first-stop) + var(--border-width));
-  --fourth-stop: 90%;
-  --third-stop: calc(var(--fourth-stop) - var(--border-width));
-  background-image: linear-gradient(
-    var(--gradient-angle),
-    white,
-    white var(--first-stop),
-    var(--red-dark) var(--first-stop),
-    var(--red-dark) var(--second-stop),
-    var(--red) var(--second-stop),
-    var(--red) var(--third-stop),
-    var(--red-dark) var(--third-stop),
-    var(--red-dark) var(--fourth-stop),
-    white var(--fourth-stop),
-    white
-  );
 }
 
 .title {

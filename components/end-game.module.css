@@ -1,0 +1,11 @@
+.wrapper {
+  display: grid;
+  grid-row-gap: 2rem;
+  align-content: center;
+  padding: 2em 0;
+}
+
+.title {
+  text-align: center;
+  font-size: 3rem;
+}

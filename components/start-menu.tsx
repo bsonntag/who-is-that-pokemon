@@ -5,6 +5,7 @@ import Link from 'next/link';
 import React, { ReactNode } from 'react';
 import styles from './start-menu.module.css';
 import { createMachine } from 'xstate';
+import { Panel } from './panel';
 
 type MenuItem = {
   label: string;
@@ -87,34 +88,36 @@ export function StartMenu(props: Props): JSX.Element {
   const [state, send] = useMachine(interactionMachine);
 
   return (
-    <div className={styles.wrapper}>
-      <h1 className={styles.title}>Start game</h1>
+    <Panel>
+      <div className={styles.wrapper}>
+        <h1 className={styles.title}>Start game</h1>
 
-      <ul
-        className={styles.menuList}
-        onFocus={() => send('interaction')}
-        onMouseEnter={() => send('interaction')}
-        onBlur={() => send('interactionLost')}
-        onMouseLeave={() => send('interactionLost')}
-      >
-        {menu.map((item, index) => (
-          <li key={index}>
-            <MenuLink
-              href={item.href}
-              isActive={state.matches('idle') && index === 0}
-              onPress={() => send('choose')}
-            >
-              <span>{item.label}</span>
-              <span className={styles.menuItemNumbers}>
-                <span className='visually-hidden'>, from number </span>
-                {item.start}
-                <span aria-label=' to number '>-</span>
-                {item.end}
-              </span>
-            </MenuLink>
-          </li>
-        ))}
-      </ul>
-    </div>
+        <ul
+          className={styles.menuList}
+          onFocus={() => send('interaction')}
+          onMouseEnter={() => send('interaction')}
+          onBlur={() => send('interactionLost')}
+          onMouseLeave={() => send('interactionLost')}
+        >
+          {menu.map((item, index) => (
+            <li key={index}>
+              <MenuLink
+                href={item.href}
+                isActive={state.matches('idle') && index === 0}
+                onPress={() => send('choose')}
+              >
+                <span>{item.label}</span>
+                <span className={styles.menuItemNumbers}>
+                  <span className='visually-hidden'>, from number </span>
+                  {item.start}
+                  <span aria-label=' to number '>-</span>
+                  {item.end}
+                </span>
+              </MenuLink>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Panel>
   );
 }

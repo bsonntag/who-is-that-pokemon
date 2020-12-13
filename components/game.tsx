@@ -3,6 +3,7 @@ import { random } from 'lodash';
 import Head from 'next/head';
 import React, { useReducer } from 'react';
 import { useQuery } from 'react-query';
+import EndGame from './end-game';
 import { WhoIsThatPokemon } from './who-is-that-pokemon';
 
 type Props = {
@@ -15,15 +16,19 @@ function extractRandomItem<I>(items: Array<I>): [I, Array<I>] {
   return [extractedItem, remaining];
 }
 
-function nextId(ids: Array<number>) {
+function getNextAndRemaining(ids: Array<number>) {
+  if (ids.length === 0) {
+    return { nextId: null, remainingIds: [] };
+  }
   const [nextId, remainingIds] = extractRandomItem(ids);
   return { nextId, remainingIds };
 }
 
 type State = {
   score: number;
-  currentId: number;
-  nextId: number;
+  correctGuesses: number;
+  currentId: number | null;
+  nextId: number | null;
   remainingIds: Array<number>;
 };
 
@@ -35,17 +40,28 @@ enum Action {
 
 function reducer(state: State, action: Action) {
   switch (action) {
-    case Action.Next:
+    case Action.Next: {
+      const { nextId, remainingIds } = state;
+      if (nextId == null) {
+        return {
+          ...state,
+          currentId: null,
+          nextId: null,
+          remainingIds: [],
+        };
+      }
       return {
         ...state,
-        currentId: state.nextId,
-        ...nextId(state.remainingIds),
+        currentId: nextId,
+        ...getNextAndRemaining(remainingIds),
       };
+    }
 
     case Action.Success:
       return {
         ...state,
         score: state.score + 2,
+        correctGuesses: state.correctGuesses + 1,
       };
 
     case Action.Failure:
@@ -64,6 +80,7 @@ function initialize(ids: Array<number>): State {
   const [nextId, remainingIds] = extractRandomItem(nextIds);
   return {
     score: 0,
+    correctGuesses: 0,
     currentId,
     nextId,
     remainingIds,
@@ -77,18 +94,28 @@ function pokemonQuery(key: string, id: number) {
 export function Game(props: Props): JSX.Element {
   const { ids } = props;
   const [state, dispatch] = useReducer(reducer, ids, initialize);
-  const { score = 0, currentId, nextId } = state;
-  const imageUrl = getPokemonImageUrl(currentId);
+  const { score, correctGuesses, currentId, nextId } = state;
   const { data: pokemon, isLoading } = useQuery(
     ['pokemon', currentId],
     pokemonQuery,
-    { cacheTime: Infinity, staleTime: Infinity }
+    { cacheTime: Infinity, staleTime: Infinity, enabled: currentId }
   );
   // Prefetch next pokemon to avoid loading time.
   useQuery(['pokemon', nextId], pokemonQuery, {
     cacheTime: Infinity,
     staleTime: Infinity,
+    enabled: nextId,
   });
+
+  if (!currentId) {
+    return (
+      <EndGame
+        score={score}
+        correctGuesses={correctGuesses}
+        total={ids.length}
+      />
+    );
+  }
 
   return (
     <>
@@ -101,7 +128,7 @@ export function Game(props: Props): JSX.Element {
           key={pokemon.id}
           isLoading={isLoading}
           pokemon={pokemon}
-          imageUrl={imageUrl}
+          imageUrl={getPokemonImageUrl(pokemon.id)}
           score={score}
           onNext={() => dispatch(Action.Next)}
           onSuccess={() => dispatch(Action.Success)}
