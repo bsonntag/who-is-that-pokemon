@@ -8,6 +8,7 @@ import styles from './who-is-that-pokemon.module.css';
 import useCountdown from 'react-use-countdown';
 import parseMs from 'parse-ms';
 import { useCssHeight } from 'hooks/css-measures';
+import { normalizeName } from 'lib/names';
 
 type Props = {
   isLoading: boolean;
@@ -100,10 +101,11 @@ export function WhoIsThatPokemon(props: Props): JSX.Element {
                     const guess = form.elements.namedItem(
                       'guess'
                     ) as HTMLInputElement;
-                    // TODO: Handle Nidorans better...
+                    const { value } = guess;
+                    const pokemonName = normalizeName(pokemon.name, value);
                     const distance = levenshteinDistance(
-                      pokemon.name.toLocaleLowerCase(),
-                      guess.value.toLocaleLowerCase()
+                      pokemonName.toLocaleLowerCase(),
+                      value.toLocaleLowerCase()
                     );
                     setGuessed(true);
                     setRating(distance);
