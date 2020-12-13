@@ -1,27 +1,2 @@
-html {
-  --red: #ff5c5b;
-  --red-dark: #e92845;
-  --gray-dark: #2b201f;
-  --gray: #333333;
-}
-
-html,
-body {
-  font-family: Helvetica, sans-serif;
-  font-size: 18px;
-  line-height: 1.5;
-}
-
-body {
-  box-sizing: border-box;
-  margin: 0;
-}
-
-button {
-  all: unset;
-  cursor: pointer;
-}
-
-* {
-  box-sizing: inherit;
-}
+@import './base.css';
+@import './visually-hidden.css';

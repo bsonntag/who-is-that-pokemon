@@ -25,7 +25,8 @@
   place-content: center;
   background-color: black;
   color: white;
-  --incline-difference: 0px;
+  --element-height: 0px;
+  --incline-difference: calc(var(--element-height) * var(--tan-angle));
   clip-path: polygon(
     0 0,
     0 0,

@@ -1,6 +1,6 @@
 import classNames from 'clsx';
-import { useLayoutEffect, useRef } from 'react';
 import styles from './field.module.css';
+import { useCssWidth } from 'hooks/css-measures';
 
 type Props = {
   label: string;
@@ -11,19 +11,7 @@ type Props = {
 
 export function Field(props: Props): JSX.Element {
   const { label, name, className, ...rest } = props;
-  const ref = useRef<HTMLLabelElement>(null);
-
-  useLayoutEffect(() => {
-    const element = ref.current;
-
-    if (!element) return;
-
-    const width = element.getBoundingClientRect().width;
-    element.style.setProperty(
-      '--gradient-distance',
-      `calc(${width}px * var(--cos-angle))`
-    );
-  }, []);
+  const ref = useCssWidth<HTMLSpanElement>();
 
   return (
     <div className={classNames(styles.wrapper, className)}>

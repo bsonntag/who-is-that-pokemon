@@ -1,5 +1,5 @@
 import classNames from 'clsx';
-import { useInclineDifference } from 'hooks/use-incline-difference';
+import { useCssHeight } from 'hooks/css-measures';
 import { ReactNode } from 'react';
 import styles from './button.module.css';
 
@@ -8,12 +8,13 @@ type Props = {
   children: ReactNode;
   type?: 'button' | 'submit';
   className?: string;
+  onClick?: () => void;
 };
 
 export function Button(props: Props): JSX.Element {
   const { as, children, className, ...rest } = props;
   const ButtonComponent = as ?? 'button';
-  const ref = useInclineDifference<HTMLDivElement>();
+  const ref = useCssHeight<HTMLDivElement>();
 
   return (
     <ButtonComponent

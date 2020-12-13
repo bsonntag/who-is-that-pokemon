@@ -1,6 +1,4 @@
-import { Link } from 'components/link';
 import { PokemonImage } from 'components/pokemon-image';
-import { useInclineDifference } from 'hooks/use-incline-difference';
 import levenshteinDistance from 'leven';
 import { Pokemon } from 'lib/poke-api';
 import { useEffect, useState } from 'react';
@@ -9,13 +7,16 @@ import { Field } from './field';
 import styles from './who-is-that-pokemon.module.css';
 import useCountdown from 'react-use-countdown';
 import parseMs from 'parse-ms';
+import { useCssHeight } from 'hooks/css-measures';
 
 type Props = {
+  isLoading: boolean;
   pokemon: Pokemon;
-  nextId: string;
+  imageUrl: string;
   score: number;
   onSuccess: () => void;
   onFailure: () => void;
+  onNext: () => void;
 };
 
 function getResult(rating: number): string {
@@ -33,11 +34,20 @@ function getResult(rating: number): string {
 }
 
 export function WhoIsThatPokemon(props: Props): JSX.Element {
-  const { score, pokemon, nextId, onSuccess, onFailure } = props;
+  const {
+    isLoading,
+    score,
+    pokemon,
+    imageUrl,
+    onSuccess,
+    onFailure,
+    onNext,
+  } = props;
+
   const [isGuessed, setGuessed] = useState(false);
   const [rating, setRating] = useState(0);
   const [isTimedOut, setTimedOut] = useState(false);
-  const ref = useInclineDifference<HTMLDivElement>();
+  const ref = useCssHeight<HTMLDivElement>();
   const countdown = useCountdown(() => Date.now() + 15000);
   const { seconds } = parseMs(countdown);
 
@@ -53,10 +63,12 @@ export function WhoIsThatPokemon(props: Props): JSX.Element {
         <div ref={ref} className={styles.displayContent}>
           <h1 className={styles.title}>Who's that Pokémon?</h1>
           <div className={styles.imageWrapper}>
-            <PokemonImage
-              url={pokemon.imageUrl}
-              isRevealed={isGuessed || isTimedOut}
-            />
+            {isLoading ? null : (
+              <PokemonImage
+                url={imageUrl}
+                isRevealed={isGuessed || isTimedOut}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -64,43 +76,53 @@ export function WhoIsThatPokemon(props: Props): JSX.Element {
       <div className={styles.formWrapper}>
         <p className={styles.score}>Score: {score}</p>
 
-        {isGuessed || isTimedOut ? (
-          <div>
-            <p>
-              {isTimedOut ? 'Too slow!' : getResult(rating)} It's {pokemon.name}
-              !
-            </p>
-            <Link href={'/pokemon/' + nextId}>Next</Link>
-          </div>
-        ) : (
+        {isLoading ? null : (
           <>
-            <p>Remaining time: {seconds}s</p>
-            <form
-              id={'guess-form'}
-              className={styles.form}
-              onSubmit={(event) => {
-                event.preventDefault();
-                const form = event.target as HTMLFormElement;
-                const guess = form.elements.namedItem(
-                  'guess'
-                ) as HTMLInputElement;
-                // TODO: Handle Nidorans better...
-                const distance = levenshteinDistance(
-                  pokemon.name.toLocaleLowerCase(),
-                  guess.value.toLocaleLowerCase()
-                );
-                setGuessed(true);
-                setRating(distance);
-                if (distance === 0) {
-                  onSuccess();
-                } else if (distance > 3) {
-                  onFailure();
-                }
-              }}
-            >
-              <Field label='Your guess:' name='guess' autoComplete={'off'} />
-              <Button type='submit'>Submit</Button>
-            </form>
+            {isGuessed || isTimedOut ? (
+              <div>
+                <p>
+                  {isTimedOut ? 'Too slow!' : getResult(rating)} It's{' '}
+                  {pokemon.name}!
+                </p>
+                <Button type='button' onClick={onNext}>
+                  Next
+                </Button>
+              </div>
+            ) : (
+              <>
+                <p>Remaining time: {seconds}s</p>
+                <form
+                  id={'guess-form'}
+                  className={styles.form}
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    const form = event.target as HTMLFormElement;
+                    const guess = form.elements.namedItem(
+                      'guess'
+                    ) as HTMLInputElement;
+                    // TODO: Handle Nidorans better...
+                    const distance = levenshteinDistance(
+                      pokemon.name.toLocaleLowerCase(),
+                      guess.value.toLocaleLowerCase()
+                    );
+                    setGuessed(true);
+                    setRating(distance);
+                    if (distance === 0) {
+                      onSuccess();
+                    } else if (distance > 3) {
+                      onFailure();
+                    }
+                  }}
+                >
+                  <Field
+                    label='Your guess:'
+                    name='guess'
+                    autoComplete={'off'}
+                  />
+                  <Button type='submit'>Submit</Button>
+                </form>
+              </>
+            )}
           </>
         )}
       </div>

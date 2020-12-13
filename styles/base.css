@@ -1,0 +1,40 @@
+html {
+  --red: #ff5c5b;
+  --red-dark: #e92845;
+  --gray-dark: #2b201f;
+  --gray: #333333;
+}
+
+html,
+body {
+  font-family: Helvetica, sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+body {
+  box-sizing: border-box;
+  min-height: 100vh;
+  margin: 0;
+  background: radial-gradient(at 90% 30%, #d9ffff, white 80%),
+    radial-gradient(at 10% 50%, #ffdef1, white 70%);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+}
+
+* {
+  box-sizing: inherit;
+}

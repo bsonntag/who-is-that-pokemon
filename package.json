@@ -12,6 +12,7 @@
     "@types/node": "^14.14.10",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@xstate/react": "^1.1.0",
     "base-64": "^1.0.0",
     "clsx": "^1.1.1",
     "leven": "^3.1.0",
@@ -20,8 +21,10 @@
     "parse-ms": "^2.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-query": "^2.26.4",
     "react-use-countdown": "^0.1.1",
-    "typescript": "^4.1.2"
+    "typescript": "^4.1.2",
+    "xstate": "^4.15.1"
   },
   "devDependencies": {
     "@bsonntag/eslint-config": "^0.7.0",
