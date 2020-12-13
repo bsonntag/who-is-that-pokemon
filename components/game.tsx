@@ -67,7 +67,7 @@ function reducer(state: State, action: Action) {
     case Action.Failure:
       return {
         ...state,
-        score: state.score - 1,
+        score: Math.max(state.score - 1, 0),
       };
 
     default:
